@@ -1,0 +1,244 @@
+body {margin-top:0px;}
+
+
+
+
+.socials {  
+    font-size:0px;
+    background-color: rgb(187, 242, 224);
+    width:80%;
+    text-align: center;
+    margin:auto;
+}
+
+
+
+.anim {height:400px;
+width:180px;
+position:relative;
+top:150px;
+left: 100px;
+
+}
+
+  #dogAnim { 
+    width:45px;
+    height:100px;
+    background: url('images/dog.png') 0 0;
+    animation: animateDog 1s  infinite; 
+    animation-timing-function: step-end;
+ 
+  }
+  
+@keyframes animateDog {
+    0%{ 
+        background: url('images/dog.png') 0 0;  
+        transform:scale(3);
+    }
+    12.5%{  
+        background: url('images/dog.png') -48px 0px no-repeat ; 
+        /* background-size:cover; */
+    }
+    25%{
+        background: url('images/dog.png') -96px 0px no-repeat;
+        /* background-size:cover; */
+    }
+    37.5%{
+        background: url('images/dog.png') -143px 0px no-repeat;
+        /* background-size:cover; */
+    }
+    50%{
+        background: url('images/dog.png') -188px 0px no-repeat;
+        /* background-size:cover; */
+    }
+    62.5%{   
+        background: url('images/dog.png') -236px 0px no-repeat;
+        /* background-size:cover; */
+     }
+    75%{    
+        background: url('images/dog.png') -280px 0px no-repeat;
+        /* background-size:cover; */
+    }
+    87.5%{ 
+        background: url('images/dog.png') -325px 0px no-repeat;
+        /* background-size:cover; */
+    }
+  
+}
+
+.socials a {padding: 5px;
+    display:inline-block;
+    text-align: center;
+    vertical-align:middle; 
+   
+}
+.socials a img { 
+   width:64px;
+   height:64px;
+}
+
+#logo-codeNation  {
+    width:max-content;
+}
+#logo-codeNation:hover {
+    animation: rotate3d 2s linear infinite; 
+}
+@keyframes rotate3d {
+    from {}
+    to{transform: rotate3d(1,1,0,360deg);}
+}
+
+#circle {
+    background: red;
+    border-radius: 50%
+  }
+  #circle:hover {
+    border-radius: 10%;
+  }
+
+
+#oct-non{
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+#oct-non:hover{
+    clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%);
+}
+
+#left-arrow{
+    clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+}
+#left-arrow:hover{
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+from {transform: rotate(0deg);}
+to {transform: rotate(360deg);}
+  }
+
+
+  
+  #shrink-pop:hover{
+    animation: shrink-pop 2s  infinite
+  }
+  @keyframes shrink-pop {
+    0%{width:100%;height:100%;}
+    50%{width:50%;height:50%;}
+    100%{width:100%;height:100%;}
+  }
+
+  #shrink-pop-two:hover{
+    animation: shrink-pop-two 2s  infinite
+  }
+  @keyframes shrink-pop-two {
+    0%{transform: scale(1);}
+    50%{transform: scale(0.5);}
+    100%{transform: scale(1);}
+  }
+
+
+
+
+  #ghost-text h1 {
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  }
+  #border-around-text h1 {
+    color: coral;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+  nav {
+    box-shadow: 10px 10px 5px 5px lightblue;
+  }
+  
+/* #triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+    /* background: url(images/twitter.png); 
+} */
+
+  .clip-me {  
+
+    clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+  }
+.heart {
+    clip-path:polygon(46% 97%, 30% 85%, 19% 76%, 9% 63%, 6% 52%, 6% 37%, 7% 27%, 13% 20%, 22% 16%, 31% 15%, 37% 26%, 40% 33%, 44% 26%, 48% 20%, 53% 14%, 63% 14%, 73% 18%, 79% 29%, 82% 46%, 83% 52%, 82% 61%, 72% 74%)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.left-arrow {
+    clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);}
+  
+
+
+
+
+
+.left-arrow {
+    animation-name: test;
+    animation-duration: 4s;
+}
+.left-arrow:hover{
+    clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+}
+@keyframes test {
+    0%{
+    clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+
+    }
+    50%{
+
+    }
+    100%{
+        clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  /* #heart {
+    width:200px;
+    background:
+     radial-gradient(circle at 60% 65%, red 64%, transparent 65%) top left,
+     radial-gradient(circle at 40% 65%, red 64%, transparent 65%) top right,
+     linear-gradient(to bottom left, red 43%,transparent 43%) bottom left ,
+     linear-gradient(to bottom right,red 43%,transparent 43%) bottom right;
+    background-size:50% 50%;
+    background-repeat:no-repeat;
+    display:inline-block;
+  }
+  #heart::before {
+    content:"";
+    display:block;
+    padding-top:100%;
+  } */
+
+
+  

@@ -1,0 +1,47 @@
+*{
+    color: rgb(173, 255, 200);
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    background-color: rgb(20, 20, 20);
+    margin: 0;
+}
+h1{
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+#buttons{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 400px;
+    margin: auto auto;
+}
+#buttons div{
+    width: 100px;
+    height: 100px;
+    border: 2px solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    text-align: center;
+    /* transition: ease-in-out 200ms ; */
+}
+
+.flash {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 30px rgb(255, 255, 255);
+    transition: ease-in-out 200ms ;
+}
+
+
+.box-text{
+    margin: 5px;
+}
+.sound-key{
+    font-weight: bold;
+}

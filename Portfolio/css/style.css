@@ -1,0 +1,56 @@
+body {background-color: #7fffd4;}
+
+header a:link, header a:visited {
+    background-color: #0e6a4b;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width:100%;
+  }
+  
+  .flex-container {
+    -js-display: flex;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+
+  .centeredText {
+    text-align: center;
+  }
+
+  .verticleButtruss {
+    border-style:solid none solid none;
+    border-color: black;
+    margin:15px 20px;
+    padding:22px 0px;
+  }
+
+  #hire-me { 
+    background: url('../images/buttonBackground.png') no-repeat;
+    background-size: contain; 
+    cursor: pointer;
+    width: 300px;
+    height:110px;
+    border: none;
+  }
+  input:focus {
+    background-color: yellow;
+  }
+  .boardered {
+    border-style:inset;
+    border-color: #0e6a4b;
+    border-width: 6px;
+  }
+  #hire-me:hover {
+    background:url('../images/buttonBackgroundHover.png') no-repeat;
+    background-size: contain;
+  }
+  #hire-me:active {
+    background: url('../images/buttonBackgroundPressed.png') no-repeat;
+    background-size: contain;
+  }
+
+
+  
