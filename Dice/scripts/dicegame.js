@@ -1,153 +1,230 @@
 
 
-const menuContainer = document.getElementById('menu-container');
-const onePlayerContainer = document.getElementById('player-one-container');
-const twoPlayerContainer = document.getElementById('player-two-container');
-const btnOnePlayer = document.getElementById('btn-one-player');
-const btnTwoPlayer = document.getElementById('btn-two-player');
-const btnInfo = document.getElementById('btn-info');
-const btnRestart = document.getElementById('btn-restart');
 
-const gameActionContainer = document.getElementById('game-action-container');
-onePlayerContainer.style.display = "none";
-twoPlayerContainer.style.display = "none"
-gameActionContainer.style.display = "none";
-let p1Score = 0;
-let p2Score = 0;
-let p1DiceTotal = 0;
-let p2DiceTotal = 0;
-let gameTally = [0, 0];
-let numPlayers =0;
-let currentPlayer = 2;
+/****************************
+*                           *
+*     global defines        *
+*                           *
+****************************/
+let mainMenu = document.getElementById('main-menu');
+let gameScreen = document.getElementById('game-action-container');
+let playableDice = document.getElementById(`playable-dice`);
+let playerSelectRefs = document.querySelectorAll('[class*="btn-player-choice"]');
 
-document.getElementById('btn-restart').addEventListener('click', (evt) => {
-    resetScores();
-    showPlayerBtns(currentPlayer);
-});
-document.getElementById('btn-one-player').addEventListener('click', (evt) => {
-    console.debug(evt, " triggered on", evt.target)
-    
-    menuContainer.style.display = "none";
-    currentPlayer=1;
-    numPlayers=1;
-    console.log("cp",currentPlayer,"np",numPlayers)
-    resetScores();
-    showPlayerBtns(currentPlayer);
-    gameActionContainer.style.display = "flex";
-    document.getElementById('player-one-container').style.display = "flex";
-   
-    
+
+let animationsOn = true;
+
+let debug = (msg) => { console.debug(msg); };
+let log = (msg) => { console.log(msg); };
+/****/
+
+
+/*
+    end of gloabl defines 
+*/
+
+
+/****************************
+*                           *
+*     event listnters       *
+*                           *
+****************************/
+
+//add click event listnter to playable dice
+playableDice.addEventListener('click', () => {
+  console.log(`spun a `, spinDice(playableDice));
 });
 
-document.getElementById('btn-two-player').addEventListener('click', (evt) => {
-    menuContainer.style.display = "none";
-    resetScores();
-    gameActionContainer.style.display = "flex";
-    onePlayerContainer.style.display = "flex";
-    twoPlayerContainer.style.display = "flex";
-    currentPlayer=Math.floor(Math.random() * 2)+1;
-    numPlayers=2;
-    showPlayerBtns(currentPlayer);
-});
+document.getElementById('btn-restart').addEventListener('click' , () => {
+  gameRef.resetPlayers()
+})
 
-document.getElementById('btn-menu').addEventListener('click', (evt) => {
-    menuContainer.style.display = "flex";
-    onePlayerContainer.style.display = "none";
-    twoPlayerContainer.style.display = "none";
-    (document.getElementById('game-action-container')).style.display = "none";
-});
+document.getElementById('btn-menu').addEventListener('click', () => {
+  console.debug("Menu button clicked");
+  mainMenu.style.display = "flex";
+  gameScreen.style.display = "none"
+  playableDice.style.display = "none"
+  animationsOn = true;
+  animateDice();
+})
 
-document.querySelectorAll('[class*="fn-hold"]').forEach(btn => {
-    btn.addEventListener("click", (evt) => {
-        if (numPlayers===1){
-            p1Score+=p1DiceTotal;
-            document.getElementById('player-one-score').innerHTML=p1Score;
-            p1DiceTotal=0;
-        }
-        if(numPlayers===2) {
-        currentPlayer === 1 ? currentPlayer = 2 : currentPlayer = 1;
-        console.log("player is now", currentPlayer);
-        showPlayerBtns(currentPlayer);
-        }
-    })
-});
-document.querySelectorAll('[class*="fn-roll"]').forEach(btn => {
-    btn.addEventListener("click", (evt) => {
-        console.log(diceRoll());
-        //diceRoll adds scores
-    })
-});
 
-function showPlayerBtns(playerIs) {
-    console.log("current player is", playerIs)
+/********************************\
+*                                *
+*   player class declarations    *
+*                                *
+\********************************/
+class Player {
+  static #count = 0;
+  constructor() {
+    this.totalScore = 0;
+    this.currentScore = 0;
+    this.active = false;
+    this.hadTurn = false;
+    this.gamesWon = 0;
+    this.panel=false;
+    this.index =Player.#count++;
+  }
+  resetPlayer() {
+    console.debug("player.resetPlayer", this)
+    this.totalScore = 0;
+    this.currentScore = 0;
+    this.hadTurn = false;
+    this.active = false;
+    this.gamesWon = 0;
+    this.display();
+  }
 
-    // if(numPlayers!==2) {return;}
-    if (playerIs == 1) {
-        selector1 = '[class*="player-one-btns"]';
-        selector2 = '[class*="player-two-btns"]';
+  display(){
+    debug(this.panel);
+    this.panel.querySelector('#player-score').innerHTML = this.totalScore;
+    this.panel.querySelector('#player-dice-total').innerHTML = this.currentScore;
     }
-    else {
-        selector2 = '[class*="player-one-btns"]';
-        selector1 = '[class*="player-two-btns"]';
-    }
-
-    document.querySelectorAll(selector1).forEach(btn => {
-        console.log("DD" + btn)
-        btn.style.display = "block";
-    });
-    document.querySelectorAll(selector2).forEach(btn => {
-        btn.style.display = "none";
-    });
+  setActive(status) {
+    this.active = status;
+  }
+  isActive() {
+    return this.active;
+  }
+  setTurn(status) {
+    this.hadTurn = status;
+  }
+  addToTotalScore(num) {
+    this.totalScore += num;
+  }
+  addToCurrentScore(num) {
+    this.currentScore += num;
+  }
+  static get COUNT() {
+    return Player.#count;
+  }
 }
 
-function resetScores() {
-     p1Score = 0;
-     p2Score = 0;
-     p1DiceTotal = 0;
-     p2DiceTotal = 0;
-     gameTally = [0, 0];
-    document.getElementById('player-one-score').innerHTML = p1Score;
-    document.getElementById('player-two-score').innerHTML = p1Score;
-    document.getElementById('p1-dice-total').innerHTML = p1Score;
-    document.getElementById('p2-dice-total').innerHTML = p1Score;
-    document.getElementById('player-one-games').innerHTML = p1Score;
-    document.getElementById('player-two-games').innerHTML = p1Score;
-}
+/********************************\
+*                                *
+*    game class declarations     *
+*                                *
+\********************************/
+class game {
+  constructor(scoreToReach = 21) {
+    this.numplayers;
+    this.scoreToReach = scoreToReach;
+    this.players = [];
+  }
+  start(numberOfPlayers) {
+    this.numberOfPlayers = numberOfPlayers
+    debug("game.start");
+    this.initPlayers();
+    this.displayPlayerPanels();
+    this.resetPlayers();
+    
+  }
+  /* end of start */
 
+  resetPlayers() {
+    let startPlayer = Math.floor((Math.random() * this.numberOfPlayers) + 1);
+    for (let i = 0; i < this.numberOfPlayers; i++) {
+      this.players[i].resetPlayer();
+      if (i===(startPlayer-1)){
+        this.players[i].active =true;
+      }
+    };
+  }
 
-// 3d rotating dice
-var eldicePoints = document.getElementById('dice1');
-eldicePoints.onclick = function () {diceRoll(); };
-
-//DICE ROLL FUNCTION
-function diceRoll() {
-    // sets dice variables
-    let dicePoints = Math.floor((Math.random() * 6) + 1);
-    //Dice reset and display
-    for (let i = 1; i <= 6; i++) {
-        eldicePoints.classList.remove('show-' + i);
-        if (dicePoints === i) {
-            eldicePoints.classList.add('show-' + i);
-        }
-    }
-    if (numPlayers===1) {
-        //one player game logic
-       onePlayerLogic(dicePoints)
+  initPlayers() {
+    console.debug("game.initPlayers", this.numberOfPlayers)
+    if (Player.COUNT >= this.numberOfPlayers) {
+      console.debug("enough player instances already : ", Player.COUNT)
     } else {
-        //two player game logic
+      while (Player.COUNT < this.numberOfPlayers)
+        this.players.push(new Player());
+      console.debug(`inititialised player `, Player.COUNT);
     }
-    
-    return dicePoints;
-} // END DICE ROLL FUNCTION
-function onePlayerLogic(dicePoints){
-    
-    document.getElementById('p1-dice-total').innerHTML = `${p1DiceTotal += dicePoints}`;
-    if (p1DiceTotal>21) {
-        p1DiceTotal =0;
-        return;
-    }
-    if (p1DiceTotal===21){
-        document.getElementById('player-one-score').innerHTML = `${p1Score += p1DiceTotal}`;
-        p1DiceTotal=0;
-    }
+  }
+
+  displayPlayerPanels() {
+    debug("turning on " + this.numberOfPlayers + " panels")
+    let elems = document.getElementsByClassName("player-panel");
+    let pnum=1;
+    Array.from(elems).forEach(panel => {
+      panel.style.display = 'none';
+      panel.id = "player"+pnum++;
+    });
+    for (let i = 0; i < this.numberOfPlayers; i++) {
+      debug(`panel ${i + 1} on`)
+      elems[i].style.display = 'flex';
+      this.players[i].panel = elems[i];
+    };
+  }
+
 }
+
+/********************************\
+*                                *
+*  function declarations         *
+*                                *
+\********************************/
+
+//copy html dice into shortened html placeholder tags
+function replaceDicePlaceholders() {
+  let placeHolders = document.getElementsByClassName('dice-placeholder');
+  for (i = 0; i < placeHolders.length; i++) {
+    const clone = document.getElementById(`playable-dice`).cloneNode(true);
+    clone.id = "";
+    placeHolders[i].appendChild(clone);
+  }
+}
+
+function animateDice() {
+  Array.from(document.getElementsByClassName(`dice`)).forEach(die => {
+    if (die.id != 'playable-dice') {
+      function aniateRolls() {
+        let randomInterval = Math.floor(Math.random() * (4000 - 500 + 1)) + 500;
+        let id = setTimeout(function () {
+          if (animationsOn) {
+            clearTimeout(id);
+            spinDice(die);
+            aniateRolls();
+          }
+        }, randomInterval);
+      }
+      aniateRolls();
+    }
+  });
+}
+
+function addMainMenuEvents() {
+  //for each potential player
+  let numberOfPlayers = 0;
+  playerSelectRefs.forEach(playerBtn => {
+    playerBtn.innerHTML = ++numberOfPlayers + " Player"
+    playerBtn.numberOfPlayers = numberOfPlayers;
+    //add the menu button click evenlistner
+    playerBtn.addEventListener('click', (evt) => {
+      numberOfPlayers = playerBtn.numberOfPlayers;
+      console.debug(`Number of players selected to play ${numberOfPlayers}`);
+      mainMenu.style.display = "none";
+      gameScreen.style.display = "flex"
+      playableDice.style.display = "flex"
+      animationsOn = false;
+      gameRef.start(numberOfPlayers)
+    });
+  });
+}
+
+function spinDice(die) {
+  let dicePoints = Math.floor((Math.random() * 6) + 1);
+  console.log("spinning die")
+  for (let i = 1; i <= 6; i++) {
+    die.classList.remove('show-' + i);
+    if (dicePoints === i) {
+      die.classList.add('show-' + i);
+    }
+  }
+  return dicePoints;
+}
+
+replaceDicePlaceholders();
+animateDice();
+gameRef = new game();
+addMainMenuEvents();
