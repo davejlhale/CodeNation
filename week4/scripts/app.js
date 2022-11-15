@@ -13,7 +13,6 @@ class Receipt {
     static receiptNumber =1;
     constructor(){
         this.items =[];
-        this.receiptNumber++;
     }
     addItem(item){
         this.items.push(item);
@@ -23,7 +22,7 @@ class Receipt {
         let text=`Receipt ${Receipt.receiptNumber}`;
         text += `\n---------`
         this.items.forEach(item => {
-            text += item.drinkName +" : £"+item.price+"\n";
+            text += `\n`+item.drinkName +" : £"+item.price;
         });
         text += `\n---------`
         text += `\nTOTAL £${(total).toFixed(2)}`
@@ -31,12 +30,10 @@ class Receipt {
         console.table("Receipt");
         console.table(this.items)
         receipt.innerText = text;
-        this.startNewReceipt();
     }
     startNewReceipt(){
-        
+            Receipt.receiptNumber+=1;
             this.items =new Array()
-        
     }
 }
 
