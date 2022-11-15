@@ -21,9 +21,9 @@ class Receipt {
     printReciet(total){
         let receipt = document.getElementById("receipt");
         let text=`Receipt ${Receipt.receiptNumber}`;
-        text += `\n---------\n`
+        text += `\n---------`
         this.items.forEach(item => {
-            text += item.drinkName +" : £"+item.price;
+            text += `\n`+item.drinkName +" : £"+item.price;
         });
         text += `\n---------`
         text += `\nTOTAL £${(total).toFixed(2)}`
