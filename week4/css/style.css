@@ -9,7 +9,7 @@
     display: flex;
     width:50%;
     flex-direction: column;
-    border:1px solid black;
+    border:1px solid #111;
     background-color: #333;
     margin:auto;
     margin-top:30px;
@@ -28,7 +28,7 @@
 .drink-button { 
     display:flex;
     flex:1 1 20%;
-    border:10px outset black;
+    border:10px outset #111;
     justify-content: center;
     border-radius: 15px;
     margin:10px; 
