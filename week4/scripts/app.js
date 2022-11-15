@@ -13,7 +13,6 @@ class Receipt {
     static receiptNumber =1;
     constructor(){
         this.items =[];
-        this.receiptNumber++;
     }
     addItem(item){
         this.items.push(item);
@@ -31,12 +30,10 @@ class Receipt {
         console.table("Receipt");
         console.table(this.items)
         receipt.innerText = text;
-        this.startNewReceipt();
     }
     startNewReceipt(){
-        
+            Receipt.receiptNumber+=1;
             this.items =new Array()
-        
     }
 }
 
