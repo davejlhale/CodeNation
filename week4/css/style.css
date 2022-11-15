@@ -25,6 +25,7 @@
     color:#333;
 }
 
+#sale,#clear,
 .drink-button { 
     display:flex;
     flex:1 1 20%;
@@ -33,7 +34,16 @@
     border-radius: 15px;
     margin:10px; 
     background-color: antiquewhite;
+    color:#333;  
 }
+#till-fns {
+    display:flex;
+   
+}
+#sale,#clear {
+    width:50%;
+}
+#sale >p,#clear > p,
 .drink-button > p {
     box-sizing: content-box;
     text-align: center;
@@ -50,6 +60,10 @@
     margin:0px 30px;
 }
 #till > :last-child {
-    margin-bottom:20px;
+    margin-top:20px;
     
+}
+
+#receipt {
+    color:brown;
 }
