@@ -10,29 +10,30 @@ shopDrinks = [
 ]
 
 class Receipt {
+    static receiptNumber =1;
     constructor(){
         this.items =[];
     }
     addItem(item){
         this.items.push(item);
     }
-    printReciet(){
+    printReciet(total){
         let receipt = document.getElementById("receipt");
-        
-        let text="";
-        console.table(this.items)
-
+        let text=`Receipt ${Receipt.receiptNumber}`;
+        text += `\n---------`
         this.items.forEach(item => {
-            text += item.drinkName +" : "+item.price
+            text += `\n`+item.drinkName +" : £"+item.price;
         });
-        console.log(text)
-        receipt.innerHTML = text;
-        this.startNew();
+        text += `\n---------`
+        text += `\nTOTAL £${(total).toFixed(2)}`
+        text += `\n---------`
+        console.table("Receipt");
+        console.table(this.items)
+        receipt.innerText = text;
     }
-    startNew(){
-        this.items.forEach(item => {
-            this.items.pop();
-        })
+    startNewReceipt(){
+            Receipt.receiptNumber+=1;
+            this.items =new Array()
     }
 }
 
@@ -43,9 +44,8 @@ class Till {
         this.addEvents();
         this.total = 0;
         this.cash = 0;
-        this.tillTotal = document.getElementById("till-total");
-        this.currentReceipt=new Receipt();
-       
+        this.tillTotalElem = document.getElementById("till-total");
+        this.currentReceipt=new Receipt();  
     }
 
     addEvents() {
@@ -54,7 +54,6 @@ class Till {
         let saleBtn = document.getElementById("sale");
         let clearBtn = document.getElementById("clear");
         
-        console.log(buttons)
         Array.from(buttons, button => {
             button.addEventListener("click", () => {
                 let drinkName = button.getElementsByTagName('p')[0].id;
@@ -64,42 +63,36 @@ class Till {
             button.addEventListener("mouseover",() => {
                 let drinkName = button.getElementsByTagName('p')[0].id;
                 enquire.innerHTML = (
-                    drinkName
-                    +" : "
-                    + (this.getPrice(drinkName)).toFixed(2));
+                    drinkName + " : " + (this.getPrice(drinkName)).toFixed(2));
             });
             button.addEventListener("mouseout",() => {
-                let drinkName = button.getElementsByTagName('p')[0].id;
                 enquire.innerHTML =(0.00).toFixed(2);
             });
-            saleBtn.addEventListener("click",() => {
-               this.currentReceipt.printReciet();
-               this.clearTotal();
-
-            })
-            clearBtn.addEventListener("click",() => {
-                this.clearTotal();
-            })
         });
+        saleBtn.addEventListener("click",() => {
+            this.currentReceipt.printReciet(this.total);
+            this.clearTotal();
+         })
+         clearBtn.addEventListener("click",() => {
+             this.clearTotal();
+         })
     }
     clearTotal(){
-        this.tillTotal.innerHTML = (0).toFixed(2);
-        this.currentReceipt.startNew();
+        this.tillTotalElem.innerHTML = (0).toFixed(2);
+        this.currentReceipt.startNewReceipt();
         this.total=0;
     }
     getPrice(drinkName){
         let foundDrink = this.drinks.find(drink => drink.name === drinkName)
-        console.table(foundDrink.price);
         return foundDrink.price
     }
     addPrice(drinkName) {
         let price =  this.getPrice(drinkName);
-        this.tillTotal.innerHTML = (this.total += price).toFixed(2);
+        this.tillTotalElem.innerHTML = (this.total += price).toFixed(2);
         return price.toFixed(2);
     }
     display() {
         this.elemTill = document.getElementById("till-buttons");
-        console.debug(".elemTill ", this.elemTill);
         this.drinks.forEach(drink => {
             let div = document.createElement("div");
             div.classList = "drink-button";
