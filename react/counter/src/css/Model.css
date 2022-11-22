@@ -1,0 +1,24 @@
+.model {
+    border:1px solid black;
+    width:max-content;
+    margin:auto;
+    padding:5px 20px;
+    background-color: wheat;
+    border-radius: 20px;
+    box-shadow: 10px 10px 0px 0px rgba(22,22,22,0.5);
+    width:20%;
+}
+.high {
+    background-color: red;
+}
+.low {
+    background-color: rgb(132, 132, 234);
+}
+.very-low {
+    background-color: rgb(74, 74, 220);
+}
+.model h1 {
+    margin:0px;
+    padding:0px;
+
+}
